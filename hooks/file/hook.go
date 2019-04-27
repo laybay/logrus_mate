@@ -141,13 +141,13 @@ func getMessage(entry *logrus.Entry) (message string, err error) {
 
 		message = message + fmt.Sprintf("%v", buf.String())
 	} else if entry.Level < logrus.InfoLevel {
-		file, lineNumber := caller.GetCallerIgnoringLogMulti(5)
+		file, lineNumber := caller.GetCallerIgnoringLogMulti(3)
 		if file != "" {
-				sep :="/pkg/mod/"
-				fileName := strings.Split(file, sep)
-				if len(fileName) >= 2 {
-					file = fileName[1]
-				}
+			sep := "/pkg/mod/"
+			fileName := strings.Split(file, sep)
+			if len(fileName) >= 2 {
+				file = fileName[1]
+			}
 		}
 		message = message + fmt.Sprintf("%s:%d", file, lineNumber)
 	}
