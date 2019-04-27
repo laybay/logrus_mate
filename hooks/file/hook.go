@@ -119,7 +119,7 @@ func (p *FileHook) Levels() []logrus.Level {
 }
 
 func getMessage(entry *logrus.Entry) (message string, err error) {
-	message = message + fmt.Sprintf("%s\n", entry.Message)
+	message = message + fmt.Sprintf("%s ", entry.Message)
 	for k, v := range entry.Data {
 		if !strings.HasPrefix(k, "err_") {
 			message = message + fmt.Sprintf("%v:%v\n", k, v)
@@ -140,14 +140,15 @@ func getMessage(entry *logrus.Entry) (message string, err error) {
 		buf.WriteString(fmt.Sprintf("\tstacktrace:\n\t\t%s", st))
 
 		message = message + fmt.Sprintf("%v", buf.String())
-	} else {
+	} else if entry.Level < logrus.InfoLevel {
 		file, lineNumber := caller.GetCallerIgnoringLogMulti(2)
 		if file != "" {
+			/*
 			sep := fmt.Sprintf("%s/src/", os.Getenv("GOPATH"))
 			fileName := strings.Split(file, sep)
 			if len(fileName) >= 2 {
 				file = fileName[1]
-			}
+			}*/
 		}
 		message = message + fmt.Sprintf("%s:%d", file, lineNumber)
 	}
