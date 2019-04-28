@@ -345,6 +345,6 @@ func (w *fileLogWriter) Flush() {
 }
 
 func formatTimeHeader(when time.Time) ([]byte, int) {
-	fmtTime := when.Format("[2006-01-02 15:04:05.999999")
-	return []byte(fmtTime),len(fmtTime)
+	fmtTime := when.Format("[2006-01-02 15:04:05.999999]")
+	return []byte(fmtTime),when.Day()
 }
